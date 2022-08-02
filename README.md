@@ -7,7 +7,7 @@ BFF(Backend for Frontend) implementation of Sorame BI System.
 ## Installation
 
 ```bash
-$ npm install
+$ pnpm install
 ```
 
 ## Running the app
