@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package clickhouse.java.datasource;
+
+import "base.proto";
+
+service DataSource {
+  rpc List(ListRequest) returns (ListResponse) {}
+}
+
+message ListRequest {
+}
+
+message ListResponse {
+  repeated Data data = 1;
+  base.BaseResp baseResp = 255;
+}
+
+message Data {
+  string dataSourceName = 1;
+  string dataSourceType = 2;
+}
+
