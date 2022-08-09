@@ -32,7 +32,7 @@ console.log(
         name: DATA_SET_SERVICE_NAME,
         transport: Transport.GRPC,
         options: {
-          url: '0.0.0.0:50051',
+          url: '123.11.3.202:50051',
           package: CLICKHOUSE_JAVA_DATASET_PACKAGE_NAME,
           protoPath: resolve(__dirname, protoPath),
         },

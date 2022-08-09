@@ -3,7 +3,7 @@ import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
 import { BaseResp } from '../base.pb';
 import { Observable } from 'rxjs';
 
-export const protobufPackage = 'clickhouse.java.datasource';
+export const protobufPackage = 'datasource';
 
 export interface ListRequest {}
 
@@ -17,20 +17,19 @@ export interface Data {
   dataSourceType: string;
 }
 
-export const CLICKHOUSE_JAVA_DATASOURCE_PACKAGE_NAME =
-  'clickhouse.java.datasource';
+export const DATASOURCE_PACKAGE_NAME = 'datasource';
 
-export interface DataSourceClient {
+export interface DataSourceServiceClient {
   list(request: ListRequest): Observable<ListResponse>;
 }
 
-export interface DataSourceController {
+export interface DataSourceServiceController {
   list(
     request: ListRequest,
   ): Promise<ListResponse> | Observable<ListResponse> | ListResponse;
 }
 
-export function DataSourceControllerMethods() {
+export function DataSourceServiceControllerMethods() {
   return function (constructor: Function) {
     const grpcMethods: string[] = ['list'];
     for (const method of grpcMethods) {
@@ -38,7 +37,7 @@ export function DataSourceControllerMethods() {
         constructor.prototype,
         method,
       );
-      GrpcMethod('DataSource', method)(
+      GrpcMethod('DataSourceService', method)(
         constructor.prototype[method],
         method,
         descriptor,
@@ -50,7 +49,7 @@ export function DataSourceControllerMethods() {
         constructor.prototype,
         method,
       );
-      GrpcStreamMethod('DataSource', method)(
+      GrpcStreamMethod('DataSourceService', method)(
         constructor.prototype[method],
         method,
         descriptor,
@@ -59,4 +58,4 @@ export function DataSourceControllerMethods() {
   };
 }
 
-export const DATA_SOURCE_SERVICE_NAME = 'DataSource';
+export const DATA_SOURCE_SERVICE_NAME = 'DataSourceService';

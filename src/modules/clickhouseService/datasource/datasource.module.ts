@@ -3,7 +3,7 @@ import { DataSourceController } from './datasouce.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import {
   DATA_SOURCE_SERVICE_NAME,
-  CLICKHOUSE_JAVA_DATASOURCE_PACKAGE_NAME,
+  DATASOURCE_PACKAGE_NAME,
 } from './datasource.pb';
 import { resolve } from 'path';
 
@@ -26,8 +26,8 @@ const protoPath =
         name: DATA_SOURCE_SERVICE_NAME,
         transport: Transport.GRPC,
         options: {
-          url: '0.0.0.0:50051',
-          package: CLICKHOUSE_JAVA_DATASOURCE_PACKAGE_NAME,
+          url: '123.11.3.202:50051',
+          package: DATASOURCE_PACKAGE_NAME,
           protoPath: resolve(__dirname, protoPath),
         },
       },
