@@ -38,41 +38,34 @@ export class DataSourceController implements OnModuleInit {
 
   @Get('list')
   async list(): Promise<Observable<ListResponse>> {
+    debugger;
     const [err, res] = await to(firstValueFrom(this.svc.list({})));
     if (err) {
+      debugger;
       // mock data, should delete it if interface is ready
-      if (
-        (
-          err as any as {
-            details?: string;
-            [key: string]: unknown;
-          }
-        )?.details === 'No connection established'
-      ) {
-        return of(
-          new Promise((resolve) => {
-            resolve({
-              data: [
-                {
-                  dataSourceName: 'Clickhouse',
-                  dataSourceType: 'click_house',
-                },
-              ],
-              baseResp: {
-                code: 0,
-                message: 'success',
+      return of(
+        new Promise((resolve) => {
+          resolve({
+            data: [
+              {
+                dataSourceName: 'Clickhouse',
+                dataSourceType: 'click_house',
               },
-            } as ListResponse);
-          }),
-        ) as any as Observable<ListResponse>;
-      }
+            ],
+            baseResp: {
+              code: 0,
+              message: 'success',
+            },
+          } as ListResponse);
+        }),
+      ) as any as Observable<ListResponse>;
 
       throw new HttpException(
         {
           status: HttpStatus.INTERNAL_SERVER_ERROR,
           error: `Failed to connect to java clickhouse service. Error Message: ${err}`,
         },
-        HttpStatus.FORBIDDEN,
+        HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
     return of(res);

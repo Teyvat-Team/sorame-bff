@@ -7,20 +7,16 @@ import {
 } from './datasource.pb';
 import { resolve } from 'path';
 
-console.log(
-  '%c __dirname >>>',
-  'background: yellow; color: blue',
-  resolve(
-    __dirname,
-    '../grpc/idl/clickhouseServiceIDL/datasource/datasource.proto',
-  ),
-);
-
 // when in debug mod, protoPath is relative to ${projectRoot}/dist/ because we use webpack for hmr
+const pathMap = {
+  debug: '../grpc/idl/clickhouseServiceIDL/datasource/datasource.proto',
+  dev: '../../../../../grpc/idl/clickhouseServiceIDL/datasource/datasource.proto',
+  production: '../grpc/idl/clickhouseServiceIDL/datasource/datasource.proto',
+};
+
 const protoPath =
-  process.env.NODE_ENV === 'debug'
-    ? '../../../../grpc/idl/clickhouseServiceIDL/datasource/datasource.proto'
-    : '../../../../grpc/idl/clickhouseServiceIDL/datasource/datasource.proto';
+  pathMap[process.env.NODE_ENV] ??
+  '../grpc/idl/clickhouseServiceIDL/datasource/datasource.proto';
 
 @Module({
   controllers: [DataSourceController],

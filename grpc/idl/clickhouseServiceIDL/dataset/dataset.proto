@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package clickhouse.java.dataset;
+
+import "base.proto";
+
+service DataSet {
+  rpc List(DataSetListRequest) returns (DataSetListResponse) {}
+}
+
+enum OrderBy {
+  createTime = 0;
+}
+
+enum Order {
+  asc = 0;
+  desc = 1;
+}
+
+
+message DataSetListRequest {
+  string createUser = 1;
+  /*
+   * @default = createTime
+   */
+  optional OrderBy orderBy = 2;
+  /*
+   * @default = desc
+   */
+  optional Order order= 3;
+  /**
+   * when page and pageSize are not set, it will return all data sets
+   */
+  optional int32 page = 4;
+  optional int32 pageSize = 5;
+  /** filter for serarching dataset name */
+  optional string keyword = 6;
+}
+
+message DataSetListResponse {
+  repeated DataSetListResponseData data = 1;
+  base.BaseResp baseResp = 255;
+}
+
+message DataSetListResponseData {
+  repeated DataSetList dataSetList = 1;
+  int64 totalCount = 2;
+}
+
+message DataSetList {
+  /** timestamp in ms*/
+  string createTime = 1;
+  /** dataset name*/
+  string name = 2;
+  /** dataset description*/
+  string descr = 3;
+  /** dataset source type*/
+  string dataSourceType = 4;
+  /** database name from where the dataset created*/
+  string dbName = 5;
+  /** table name*/
+  string tableName = 6;
+  /** table schema*/
+  repeated Schema schema = 7;
+  /** dataset id*/
+  string id = 8;
+  /** dataset createUser*/
+  string createUser = 9;
+}
+
+message Schema {
+  string name = 1;
+  string type = 2;
+  string descr = 3;
+  bool isPartition = 4;
+}
+
+
