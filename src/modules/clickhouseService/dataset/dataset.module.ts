@@ -1,10 +1,7 @@
 import { Module } from '@nestjs/common';
 import { DataSetController } from './dataset.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import {
-  CLICKHOUSE_JAVA_DATASET_PACKAGE_NAME,
-  DATA_SET_SERVICE_NAME,
-} from './dataset.pb';
+import { DATASET_PACKAGE_NAME, DATA_SET_SERVICE_NAME } from './dataset.pb';
 import { resolve } from 'path';
 
 // when in debug mod, protoPath is relative to ${projectRoot}/dist/ because we use webpack for hmr
@@ -33,7 +30,7 @@ console.log(
         transport: Transport.GRPC,
         options: {
           url: '123.11.3.202:50051',
-          package: CLICKHOUSE_JAVA_DATASET_PACKAGE_NAME,
+          package: DATASET_PACKAGE_NAME,
           protoPath: resolve(__dirname, protoPath),
         },
       },

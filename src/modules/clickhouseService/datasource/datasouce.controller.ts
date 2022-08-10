@@ -52,13 +52,13 @@ export class DataSourceController implements OnModuleInit {
       }),
     ) as any as Observable<ListResponse>;
 
-    throw new HttpException(
-      {
-        status: HttpStatus.INTERNAL_SERVER_ERROR,
-        error: `Failed to connect to java clickhouse service. Error Message: ${err}`,
-      },
-      HttpStatus.INTERNAL_SERVER_ERROR,
-    );
+    // throw new HttpException(
+    //   {
+    //     status: HttpStatus.INTERNAL_SERVER_ERROR,
+    //     error: `Failed to connect to java clickhouse service. Error Message: ${err}`,
+    //   },
+    //   HttpStatus.INTERNAL_SERVER_ERROR,
+    // );
     // }
     // return of(res);
   }

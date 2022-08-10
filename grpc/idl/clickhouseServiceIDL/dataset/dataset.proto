@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package clickhouse.java.dataset;
+package dataset;
 
 import "base.proto";
 
@@ -16,7 +16,6 @@ enum Order {
   asc = 0;
   desc = 1;
 }
-
 
 message DataSetListRequest {
   string createUser = 1;
@@ -38,17 +37,23 @@ message DataSetListRequest {
 }
 
 message DataSetListResponse {
+  // 所有数据集
   repeated DataSetListResponseData data = 1;
   base.BaseResp baseResp = 255;
 }
 
+// 单个数据集
 message DataSetListResponseData {
+  // 一个数据集下的所有的表，数组长度为表的个数
   repeated DataSetList dataSetList = 1;
+  // 数据集总数
   int64 totalCount = 2;
 }
 
+// 数据集下的单张表
 message DataSetList {
-  /** timestamp in ms*/
+  // 1-6 是数据集的字段，而不是表的字段
+  /** dataset createTime, timestamp in ms*/
   string createTime = 1;
   /** dataset name*/
   string name = 2;
@@ -56,16 +61,19 @@ message DataSetList {
   string descr = 3;
   /** dataset source type*/
   string dataSourceType = 4;
-  /** database name from where the dataset created*/
-  string dbName = 5;
-  /** table name*/
-  string tableName = 6;
-  /** table schema*/
-  repeated Schema schema = 7;
-  /** dataset id*/
-  string id = 8;
+  /** dataset id 数据集id */
+  string id = 5;
   /** dataset createUser*/
-  string createUser = 9;
+  string createUser = 6;
+  // 7-9 是表的字段
+  /** database name from where the table created*/
+  string dbName = 7;
+  /** table name*/
+  string tableName = 8;
+   /** table id*/
+  string tableId = 9;
+  /** table schema*/
+  repeated Schema schema = 10;
 }
 
 message Schema {
@@ -74,5 +82,3 @@ message Schema {
   string descr = 3;
   bool isPartition = 4;
 }
-
-
