@@ -74,24 +74,99 @@ export interface Schema {
   isPartition: boolean;
 }
 
+export interface CreateDatasetsRequest {
+  createTableList: CreateTableList[];
+}
+
+export interface CreateTableList {
+  /** 数据集名称 */
+  name: string;
+  /** 数据集描述 */
+  descr: string;
+  /** 数据源类型 */
+  dataSourceTpye: string;
+  /** 数据库名称 */
+  dbName: string;
+  /** 表名 */
+  tableName: string;
+  /** 创建用户 */
+  createUser: string;
+  /** 维度和指标 */
+  attr: Attr[];
+}
+
+export interface Attr {
+  dimension: string[];
+  matrix: string[];
+}
+
+export interface CreateDatasetsResponse {
+  data: Data[];
+  baseResp: BaseResp | undefined;
+}
+
+export interface Data {
+  dataSetId: string;
+}
+
+export interface DeleteDatasetsRequest {
+  /** 数据集id */
+  id: string;
+}
+
+export interface DeleteDatasetsResponse {
+  data: boolean;
+  baseResp: BaseResp | undefined;
+}
+
 export const DATASET_PACKAGE_NAME = 'dataset';
 
 export interface DataSetClient {
+  /** 数据集列表 */
+
   list(request: DataSetListRequest): Observable<DataSetListResponse>;
+
+  /** 创建数据集 */
+
+  create(request: CreateDatasetsRequest): Observable<CreateDatasetsResponse>;
+
+  /** 删除数据集 */
+
+  delete(request: DeleteDatasetsRequest): Observable<DeleteDatasetsResponse>;
 }
 
 export interface DataSetController {
+  /** 数据集列表 */
+
   list(
     request: DataSetListRequest,
   ):
     | Promise<DataSetListResponse>
     | Observable<DataSetListResponse>
     | DataSetListResponse;
+
+  /** 创建数据集 */
+
+  create(
+    request: CreateDatasetsRequest,
+  ):
+    | Promise<CreateDatasetsResponse>
+    | Observable<CreateDatasetsResponse>
+    | CreateDatasetsResponse;
+
+  /** 删除数据集 */
+
+  delete(
+    request: DeleteDatasetsRequest,
+  ):
+    | Promise<DeleteDatasetsResponse>
+    | Observable<DeleteDatasetsResponse>
+    | DeleteDatasetsResponse;
 }
 
 export function DataSetControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ['list'];
+    const grpcMethods: string[] = ['list', 'create', 'delete'];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(
         constructor.prototype,

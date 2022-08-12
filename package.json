@@ -21,7 +21,9 @@
     "kill": "kill-port 3000",
     "proto:clickhouse-service:datasource": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto -I=./grpc/idl/clickhouseServiceIDL --ts_proto_out=./src/modules/clickhouseService/ ./grpc/idl/clickhouseServiceIDL/datasource/datasource.proto --ts_proto_opt=nestJs=true --ts_proto_opt=fileSuffix=.pb",
     "proto:clickhouse-service:dataset": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto -I=./grpc/idl/clickhouseServiceIDL --ts_proto_out=./src/modules/clickhouseService/ ./grpc/idl/clickhouseServiceIDL/dataset/dataset.proto --ts_proto_opt=nestJs=true --ts_proto_opt=fileSuffix=.pb",
-    "proto:clickhouse-service": "pnpm run proto:clickhouse-service:datasource && pnpm run proto:clickhouse-service:dataset"
+    "proto:clickhouse-service:table": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto -I=./grpc/idl/clickhouseServiceIDL --ts_proto_out=./src/modules/clickhouseService/ ./grpc/idl/clickhouseServiceIDL/table/table.proto --ts_proto_opt=nestJs=true --ts_proto_opt=fileSuffix=.pb",
+    "proto:clickhouse-service:search": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto -I=./grpc/idl/clickhouseServiceIDL --ts_proto_out=./src/modules/clickhouseService/ ./grpc/idl/clickhouseServiceIDL/search/search.proto --ts_proto_opt=nestJs=true --ts_proto_opt=fileSuffix=.pb",
+    "proto:clickhouse-service": "pnpm run proto:clickhouse-service:datasource && pnpm run proto:clickhouse-service:dataset && pnpm run proto:clickhouse-service:table && pnpm run proto:clickhouse-service:search"
   },
   "dependencies": {
     "@faker-js/faker": "^7.3.0",

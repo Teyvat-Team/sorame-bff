@@ -5,8 +5,15 @@ package dataset;
 import "base.proto";
 
 service DataSet {
+  // 数据集列表
   rpc List(DataSetListRequest) returns (DataSetListResponse) {}
+  // 创建数据集
+  rpc Create(CreateDatasetsRequest) returns (CreateDatasetsResponse) {}
+  // 删除数据集
+  rpc Delete(DeleteDatasetsRequest) returns (DeleteDatasetsResponse) {}
 }
+
+/** 数据集列表 *****************************************/
 
 enum OrderBy {
   createTime = 0;
@@ -81,4 +88,45 @@ message Schema {
   string type = 2;
   string descr = 3;
   bool isPartition = 4;
+}
+
+/** 创建数据集 *****************************************/
+
+message CreateDatasetsRequest {
+  repeated CreateTableList  createTableList = 1;
+}
+
+message CreateTableList {
+  string name = 1; // 数据集名称
+  string descr = 2; //数据集描述
+  string dataSourceTpye = 3; //数据源类型
+  string dbName = 4; // 数据库名称
+  string tableName = 5; //表名
+  string createUser = 7; // 创建用户
+  repeated Attr attr = 6; // 维度和指标
+}
+
+message Attr {
+  repeated string dimension = 1;
+  repeated string matrix = 2;
+}
+
+message CreateDatasetsResponse {
+  repeated Data data = 1;
+  base.BaseResp baseResp = 255;
+}
+
+message Data {
+  string dataSetId = 1;
+}
+
+/** 删除数据集 *****************************************/
+
+message DeleteDatasetsRequest {
+  string id = 1; // 数据集id
+}
+
+message DeleteDatasetsResponse {
+  bool data = 1;
+  base.BaseResp baseResp = 255;
 }

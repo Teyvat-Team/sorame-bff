@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package search;
+
+import "base.proto";
+
+// 查询接口
+service Search {
+  rpc Query(SearchInterfaceRequest) returns (SearchInterfaceResponse) {}
+}
+
+
+message SearchInterfaceRequest {
+  string datasetId = 1;
+  string tableId = 2;
+  bool cache = 3;
+  repeated SelectList selectList = 4;
+  string whereCause = 5;
+  repeated string groupByList = 6;
+  repeated Sort sort = 7;
+}
+
+message SearchInterfaceResponse {
+  string cost = 1;
+  string sql = 2;
+  repeated Table data = 3;
+  base.BaseResp baseResp = 255;
+}
+
+message SelectList {
+  string function = 1;
+  string field = 2;
+}
+
+message Table {
+  repeated Row row = 1;
+}
+
+message Sort {
+  string field = 1;
+  string order = 2;
+}
+
+message Row {
+  string key = 1;
+  string value = 2;
+}

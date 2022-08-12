@@ -1,0 +1,89 @@
+syntax = "proto3";
+
+package table;
+
+import "base.proto";
+
+
+service Table {
+  // 数据源下的所有表
+  rpc List(TableRequest) returns (TableResponse) {}
+  // 表的 schema
+  rpc Schema(TableSchemaRequest) returns (TableSchemaResponse) {}
+   // 单个数据表信息
+  rpc Info(DataTableInfoRequest) returns (DataTableInfoResponse) {}
+}
+
+/** 数据源下的所有表 ***********************************************/
+
+message TableRequest {
+  string dataSourceName = 1; // 数据源名称（数据源名称需要唯一，否则需要一个id）
+}
+
+message TableResponse {
+  repeated TableList data = 1;
+  base.BaseResp baseResp = 255;
+}
+
+message TableList {
+    string dbName = 1;
+    repeated DBTable dbTable = 2;
+}
+
+message DBTable {
+  string tableName = 1;
+  string tableId = 2;
+}
+
+/** 单张表的 Schema ********************************************/
+
+message TableSchemaRequest {
+  string dataSourceType = 1; // 数据源类型
+  string dbName = 2; // 数据库名称
+  string tableName = 3; // 表名
+}
+
+message TableSchemaResponse {
+  repeated Schema schema = 1; // 表名
+  base.BaseResp baseResp = 255;
+}
+
+message Schema {
+  string name = 1;
+  string type = 2;
+  string descr = 3;
+  bool isPartition = 4;
+}
+
+/** 单个数据表信息 *****************************************/
+
+message DataTableInfoRequest {
+  string datasetId = 1; // 数据集 id
+  string dataTableId = 2; // 数据表 id
+}
+
+message DataTableInfoResponse {
+  repeated DimensionList dimensionList = 1;
+  repeated MetricList metricList = 2;
+  repeated FunctionList functionList = 3;
+  base.BaseResp baseResp = 255;
+}
+
+message DimensionList {
+  string name = 1;
+  string type = 2;
+  string descr = 3;
+  bool isPartition = 4;
+}
+
+message MetricList {
+  string name = 1;
+  string type = 2;
+  string descr = 3;
+  bool isPartition = 4;
+}
+
+message FunctionList {
+  string name = 1;
+  string value = 2;
+}
