@@ -26,12 +26,12 @@ export interface DBTable {
 }
 
 export interface TableSchemaRequest {
-  /** 数据源类型 */
-  dataSourceType: string;
+  /** 数据源名称 */
+  dataSourceName: string;
   /** 数据库名称 */
   dbName: string;
-  /** 表名 */
-  tableName: string;
+  /** 表 id */
+  tableId: string;
 }
 
 export interface TableSchemaResponse {
@@ -91,7 +91,7 @@ export interface TableClient {
 
   schema(request: TableSchemaRequest): Observable<TableSchemaResponse>;
 
-  /** 单个数据表信息 */
+  /** 数据集中单个数据表信息 */
 
   info(request: DataTableInfoRequest): Observable<DataTableInfoResponse>;
 }
@@ -112,7 +112,7 @@ export interface TableController {
     | Observable<TableSchemaResponse>
     | TableSchemaResponse;
 
-  /** 单个数据表信息 */
+  /** 数据集中单个数据表信息 */
 
   info(
     request: DataTableInfoRequest,

@@ -8,9 +8,9 @@ service DataSet {
   // 数据集列表
   rpc List(DataSetListRequest) returns (DataSetListResponse) {}
   // 创建数据集
-  rpc Create(CreateDatasetsRequest) returns (CreateDatasetsResponse) {}
+  rpc Create(CreateDatasetRequest) returns (CreateDatasetResponse) {}
   // 删除数据集
-  rpc Delete(DeleteDatasetsRequest) returns (DeleteDatasetsResponse) {}
+  rpc Delete(DeleteDatasetRequest) returns (DeleteDatasetResponse) {}
 }
 
 /** 数据集列表 *****************************************/
@@ -92,18 +92,18 @@ message Schema {
 
 /** 创建数据集 *****************************************/
 
-message CreateDatasetsRequest {
+message CreateDatasetRequest {
   repeated CreateTableList  createTableList = 1;
 }
 
 message CreateTableList {
   string name = 1; // 数据集名称
   string descr = 2; //数据集描述
-  string dataSourceTpye = 3; //数据源类型
+  string dataSourceName = 3; //数据源名称
   string dbName = 4; // 数据库名称
-  string tableName = 5; //表名
+  string tableId = 5; //表 id
   string createUser = 7; // 创建用户
-  repeated Attr attr = 6; // 维度和指标
+  Attr attr = 6; // 维度和指标
 }
 
 message Attr {
@@ -111,8 +111,8 @@ message Attr {
   repeated string matrix = 2;
 }
 
-message CreateDatasetsResponse {
-  repeated Data data = 1;
+message CreateDatasetResponse {
+  Data data = 1;
   base.BaseResp baseResp = 255;
 }
 
@@ -122,11 +122,11 @@ message Data {
 
 /** 删除数据集 *****************************************/
 
-message DeleteDatasetsRequest {
+message DeleteDatasetRequest {
   string id = 1; // 数据集id
 }
 
-message DeleteDatasetsResponse {
+message DeleteDatasetResponse {
   bool data = 1;
   base.BaseResp baseResp = 255;
 }

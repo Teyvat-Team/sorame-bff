@@ -1,4 +1,6 @@
 import {
+  CreateDatasetsRequest,
+  CreateDatasetsResponse,
   DataSetClient,
   DataSetList,
   DataSetListRequest,
@@ -13,6 +15,10 @@ import {
   HttpException,
   HttpStatus,
   Query,
+  Post,
+  Body,
+  Delete,
+  Param,
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { firstValueFrom, Observable, of } from 'rxjs';
@@ -38,7 +44,6 @@ export class DataSetController implements OnModuleInit {
   async list(
     @Query() query: DataSetListRequest,
   ): Promise<Observable<DataSetListResponse>> {
-    debugger;
     // const [err, res] = await to(firstValueFrom(this.svc.list(query)));
     // if (err) {
     // mock data, should delete it if interface is ready
@@ -99,6 +104,66 @@ export class DataSetController implements OnModuleInit {
     //   {
     //     status: HttpStatus.INTERNAL_SERVER_ERROR,
     //     error: `Database microservice error occur when looking up for dataset: ${err}`,
+    //   },
+    //   HttpStatus.INTERNAL_SERVER_ERROR,
+    // );
+    // }
+    // return of(res);
+  }
+
+  @Post('create')
+  async create(
+    @Body() params: CreateDatasetsRequest,
+  ): Promise<Observable<CreateDatasetsResponse>> {
+    // const [err, res] = await to(firstValueFrom(this.svc.create(params)));
+    // if (err) {
+    // mock data, should delete it if interface is ready
+    console.log('%c params >>>', 'background: yellow; color: blue', params);
+
+    return of(
+      new Promise((resolve) => {
+        resolve({
+          baseResp: {
+            code: 200,
+            message: 'success',
+          },
+          data: {
+            id: faker.random.numeric(23),
+          },
+        } as CreateDatasetsResponse);
+      }),
+    ) as any as Observable<CreateDatasetsResponse>;
+
+    // throw new HttpException(
+    //   {
+    //     status: HttpStatus.INTERNAL_SERVER_ERROR,
+    //     error: `Failed to connect to java clickhouse service. Error Message: ${err}`,
+    //   },
+    //   HttpStatus.INTERNAL_SERVER_ERROR,
+    // );
+    // }
+    // return of(res);
+  }
+
+  @Delete('delete')
+  async delete(
+    @Query() params: CreateDatasetsRequest,
+  ): Promise<Observable<CreateDatasetsResponse>> {
+    // const [err, res] = await to(firstValueFrom(this.svc.create(params)));
+    // if (err) {
+    // mock data, should delete it if interface is ready
+    console.log('%c params >>>', 'background: yellow; color: blue', params);
+
+    return of(
+      new Promise((resolve) => {
+        resolve({} as CreateDatasetsResponse);
+      }),
+    ) as any as Observable<CreateDatasetsResponse>;
+
+    // throw new HttpException(
+    //   {
+    //     status: HttpStatus.INTERNAL_SERVER_ERROR,
+    //     error: `Failed to connect to java clickhouse service. Error Message: ${err}`,
     //   },
     //   HttpStatus.INTERNAL_SERVER_ERROR,
     // );

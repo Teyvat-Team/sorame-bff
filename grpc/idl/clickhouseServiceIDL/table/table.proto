@@ -10,7 +10,7 @@ service Table {
   rpc List(TableRequest) returns (TableResponse) {}
   // 表的 schema
   rpc Schema(TableSchemaRequest) returns (TableSchemaResponse) {}
-   // 单个数据表信息
+   // 数据集中单个数据表信息
   rpc Info(DataTableInfoRequest) returns (DataTableInfoResponse) {}
 }
 
@@ -38,9 +38,9 @@ message DBTable {
 /** 单张表的 Schema ********************************************/
 
 message TableSchemaRequest {
-  string dataSourceType = 1; // 数据源类型
+  string dataSourceName = 1; // 数据源名称
   string dbName = 2; // 数据库名称
-  string tableName = 3; // 表名
+  string tableId = 3; // 表 id
 }
 
 message TableSchemaResponse {
@@ -55,7 +55,7 @@ message Schema {
   bool isPartition = 4;
 }
 
-/** 单个数据表信息 *****************************************/
+/** 数据集中单个数据表信息 *****************************************/
 
 message DataTableInfoRequest {
   string datasetId = 1; // 数据集 id

@@ -74,7 +74,7 @@ export interface Schema {
   isPartition: boolean;
 }
 
-export interface CreateDatasetsRequest {
+export interface CreateDatasetRequest {
   createTableList: CreateTableList[];
 }
 
@@ -83,16 +83,16 @@ export interface CreateTableList {
   name: string;
   /** 数据集描述 */
   descr: string;
-  /** 数据源类型 */
-  dataSourceTpye: string;
+  /** 数据源名称 */
+  dataSourceName: string;
   /** 数据库名称 */
   dbName: string;
-  /** 表名 */
-  tableName: string;
+  /** 表 id */
+  tableId: string;
   /** 创建用户 */
   createUser: string;
   /** 维度和指标 */
-  attr: Attr[];
+  attr: Attr | undefined;
 }
 
 export interface Attr {
@@ -100,8 +100,8 @@ export interface Attr {
   matrix: string[];
 }
 
-export interface CreateDatasetsResponse {
-  data: Data[];
+export interface CreateDatasetResponse {
+  data: Data | undefined;
   baseResp: BaseResp | undefined;
 }
 
@@ -109,12 +109,12 @@ export interface Data {
   dataSetId: string;
 }
 
-export interface DeleteDatasetsRequest {
+export interface DeleteDatasetRequest {
   /** 数据集id */
   id: string;
 }
 
-export interface DeleteDatasetsResponse {
+export interface DeleteDatasetResponse {
   data: boolean;
   baseResp: BaseResp | undefined;
 }
@@ -128,11 +128,11 @@ export interface DataSetClient {
 
   /** 创建数据集 */
 
-  create(request: CreateDatasetsRequest): Observable<CreateDatasetsResponse>;
+  create(request: CreateDatasetRequest): Observable<CreateDatasetResponse>;
 
   /** 删除数据集 */
 
-  delete(request: DeleteDatasetsRequest): Observable<DeleteDatasetsResponse>;
+  delete(request: DeleteDatasetRequest): Observable<DeleteDatasetResponse>;
 }
 
 export interface DataSetController {
@@ -148,20 +148,20 @@ export interface DataSetController {
   /** 创建数据集 */
 
   create(
-    request: CreateDatasetsRequest,
+    request: CreateDatasetRequest,
   ):
-    | Promise<CreateDatasetsResponse>
-    | Observable<CreateDatasetsResponse>
-    | CreateDatasetsResponse;
+    | Promise<CreateDatasetResponse>
+    | Observable<CreateDatasetResponse>
+    | CreateDatasetResponse;
 
   /** 删除数据集 */
 
   delete(
-    request: DeleteDatasetsRequest,
+    request: DeleteDatasetRequest,
   ):
-    | Promise<DeleteDatasetsResponse>
-    | Observable<DeleteDatasetsResponse>
-    | DeleteDatasetsResponse;
+    | Promise<DeleteDatasetResponse>
+    | Observable<DeleteDatasetResponse>
+    | DeleteDatasetResponse;
 }
 
 export function DataSetControllerMethods() {

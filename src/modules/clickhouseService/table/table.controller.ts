@@ -4,8 +4,12 @@ import {
   TableResponse,
   TABLE_SERVICE_NAME,
   DBTable,
+  TableRequest,
+  TableSchemaResponse,
+  TableSchemaRequest,
+  Schema,
 } from './table.pb';
-import { Controller, Inject, OnModuleInit, Get } from '@nestjs/common';
+import { Controller, Inject, OnModuleInit, Get, Query } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { firstValueFrom, Observable, of } from 'rxjs';
 import to from 'await-to-js';
@@ -25,7 +29,6 @@ export class TableController implements OnModuleInit {
 
   @Get('list')
   async query(): Promise<Observable<TableResponse>> {
-    debugger;
     // const [err, res] = await to(firstValueFrom(this.svc.list({})));
     // if (err) {
     // mock data, should delete it if interface is ready
@@ -50,6 +53,44 @@ export class TableController implements OnModuleInit {
         } as TableResponse);
       }),
     ) as any as Observable<TableResponse>;
+
+    // throw new HttpException(
+    //   {
+    //     status: HttpStatus.INTERNAL_SERVER_ERROR,
+    //     error: `Failed to connect to java clickhouse service. Error Message: ${err}`,
+    //   },
+    //   HttpStatus.INTERNAL_SERVER_ERROR,
+    // );
+    // }
+    // return of(res);
+  }
+
+  @Get('schema')
+  async schema(
+    @Query() query: TableSchemaRequest,
+  ): Promise<Observable<TableSchemaResponse>> {
+    debugger;
+    // const [err, res] = await to(firstValueFrom(this.svc.list({})));
+    // if (err) {
+    // mock data, should delete it if interface is ready
+    return of(
+      new Promise((resolve) => {
+        resolve({
+          baseResp: {
+            code: 200,
+            message: 'success',
+          },
+          schema: new Array<Schema>(5).fill(null).map((_, schemaIdx) => {
+            return {
+              name: `schema_${schemaIdx}_${faker.name.firstName()}`,
+              type: `type_${schemaIdx}_${faker.name.middleName()}`,
+              descr: `descr_${schemaIdx}_${faker.lorem.paragraph()}`,
+              isPartition: Math.random() > 0.5,
+            };
+          }),
+        } as TableSchemaResponse);
+      }),
+    ) as any as Observable<TableSchemaResponse>;
 
     // throw new HttpException(
     //   {
