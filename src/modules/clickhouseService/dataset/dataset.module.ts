@@ -15,12 +15,6 @@ const protoPath =
   pathMap[process.env.NODE_ENV] ??
   '../grpc/idl/clickhouseServiceIDL/dataset/dataset.proto';
 
-console.log(
-  '%c resolve(__dirname, protoPath) >>>',
-  'background: yellow; color: blue',
-  resolve(__dirname, protoPath),
-);
-
 @Module({
   controllers: [DataSetController],
   imports: [

@@ -8,7 +8,7 @@ import "base.proto";
 service Table {
   // 数据源下的所有表
   rpc List(TableRequest) returns (TableResponse) {}
-  // 表的 schema
+  // 数据源中表的 schema
   rpc Schema(TableSchemaRequest) returns (TableSchemaResponse) {}
    // 数据集中单个数据表信息
   rpc Info(DataTableInfoRequest) returns (DataTableInfoResponse) {}
@@ -35,7 +35,7 @@ message DBTable {
   string tableId = 2;
 }
 
-/** 单张表的 Schema ********************************************/
+/** 数据源中表的 schema ********************************************/
 
 message TableSchemaRequest {
   string dataSourceName = 1; // 数据源名称
@@ -63,9 +63,34 @@ message DataTableInfoRequest {
 }
 
 message DataTableInfoResponse {
-  repeated DimensionList dimensionList = 1;
-  repeated MetricList metricList = 2;
-  repeated FunctionList functionList = 3;
+  // 1-6 是数据集的字段，而不是表的字段
+  /** dataset createTime, timestamp in ms*/
+  string createTime = 1;
+  /** dataset name*/
+  string name = 2;
+  /** dataset description*/
+  string descr = 3;
+  /** dataset source type*/
+  string dataSourceType = 4;
+  /** dataset id 数据集id */
+  string id = 5;
+  /** dataset createUser*/
+  string createUser = 6;
+  // 7-13 是表的字段
+  /** database name from where the table created*/
+  string dbName = 7;
+  /** table name*/
+  string tableName = 8;
+   /** table id*/
+  string tableId = 9;
+  /** table schema*/
+  repeated Schema schema = 10;
+  // 维度
+  repeated DimensionList dimensionList = 11;
+  // 指标
+  repeated MetricList metricList = 12;
+  // 操作算子
+  repeated FunctionList functionList = 13;
   base.BaseResp baseResp = 255;
 }
 

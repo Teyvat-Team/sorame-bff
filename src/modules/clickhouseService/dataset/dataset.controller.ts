@@ -118,8 +118,6 @@ export class DataSetController implements OnModuleInit {
     // const [err, res] = await to(firstValueFrom(this.svc.create(params)));
     // if (err) {
     // mock data, should delete it if interface is ready
-    console.log('%c params >>>', 'background: yellow; color: blue', params);
-
     return of(
       new Promise((resolve) => {
         resolve({
@@ -152,8 +150,6 @@ export class DataSetController implements OnModuleInit {
     // const [err, res] = await to(firstValueFrom(this.svc.create(params)));
     // if (err) {
     // mock data, should delete it if interface is ready
-    console.log('%c params >>>', 'background: yellow; color: blue', params);
-
     return of(
       new Promise((resolve) => {
         resolve({} as CreateDatasetsResponse);
