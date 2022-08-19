@@ -1,6 +1,6 @@
 import {
-  CreateDatasetsRequest,
-  CreateDatasetsResponse,
+  CreateDatasetRequest,
+  CreateDatasetResponse,
   DataSetClient,
   DataSetList,
   DataSetListRequest,
@@ -113,8 +113,8 @@ export class DataSetController implements OnModuleInit {
 
   @Post('create')
   async create(
-    @Body() params: CreateDatasetsRequest,
-  ): Promise<Observable<CreateDatasetsResponse>> {
+    @Body() params: CreateDatasetRequest,
+  ): Promise<Observable<CreateDatasetResponse>> {
     // const [err, res] = await to(firstValueFrom(this.svc.create(params)));
     // if (err) {
     // mock data, should delete it if interface is ready
@@ -126,11 +126,11 @@ export class DataSetController implements OnModuleInit {
             message: 'success',
           },
           data: {
-            id: faker.random.numeric(23),
+            dataSetId: faker.random.numeric(23),
           },
-        } as CreateDatasetsResponse);
+        } as CreateDatasetResponse);
       }),
-    ) as any as Observable<CreateDatasetsResponse>;
+    ) as any as Observable<CreateDatasetResponse>;
 
     // throw new HttpException(
     //   {
@@ -145,16 +145,16 @@ export class DataSetController implements OnModuleInit {
 
   @Delete('delete')
   async delete(
-    @Query() params: CreateDatasetsRequest,
-  ): Promise<Observable<CreateDatasetsResponse>> {
+    @Query() params: CreateDatasetRequest,
+  ): Promise<Observable<CreateDatasetResponse>> {
     // const [err, res] = await to(firstValueFrom(this.svc.create(params)));
     // if (err) {
     // mock data, should delete it if interface is ready
     return of(
       new Promise((resolve) => {
-        resolve({} as CreateDatasetsResponse);
+        resolve({} as CreateDatasetResponse);
       }),
-    ) as any as Observable<CreateDatasetsResponse>;
+    ) as any as Observable<CreateDatasetResponse>;
 
     // throw new HttpException(
     //   {

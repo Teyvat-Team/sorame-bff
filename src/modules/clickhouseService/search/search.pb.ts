@@ -18,7 +18,7 @@ export interface SearchInterfaceRequest {
 export interface SearchInterfaceResponse {
   cost: string;
   sql: string;
-  data: Table[];
+  table: Rows[];
   baseResp: BaseResp | undefined;
 }
 
@@ -27,8 +27,8 @@ export interface SelectList {
   field: string;
 }
 
-export interface Table {
-  row: Row[];
+export interface Rows {
+  row: RowItem[];
 }
 
 export interface Sort {
@@ -36,22 +36,18 @@ export interface Sort {
   order: string;
 }
 
-export interface Row {
+export interface RowItem {
   key: string;
   value: string;
 }
 
 export const SEARCH_PACKAGE_NAME = 'search';
 
-/** 查询接口 */
-
-export interface SearchClient {
+export interface SearchServiceClient {
   query(request: SearchInterfaceRequest): Observable<SearchInterfaceResponse>;
 }
 
-/** 查询接口 */
-
-export interface SearchController {
+export interface SearchServiceController {
   query(
     request: SearchInterfaceRequest,
   ):
@@ -60,7 +56,7 @@ export interface SearchController {
     | SearchInterfaceResponse;
 }
 
-export function SearchControllerMethods() {
+export function SearchServiceControllerMethods() {
   return function (constructor: Function) {
     const grpcMethods: string[] = ['query'];
     for (const method of grpcMethods) {
@@ -68,7 +64,7 @@ export function SearchControllerMethods() {
         constructor.prototype,
         method,
       );
-      GrpcMethod('Search', method)(
+      GrpcMethod('SearchService', method)(
         constructor.prototype[method],
         method,
         descriptor,
@@ -80,7 +76,7 @@ export function SearchControllerMethods() {
         constructor.prototype,
         method,
       );
-      GrpcStreamMethod('Search', method)(
+      GrpcStreamMethod('SearchService', method)(
         constructor.prototype[method],
         method,
         descriptor,
@@ -89,4 +85,4 @@ export function SearchControllerMethods() {
   };
 }
 
-export const SEARCH_SERVICE_NAME = 'Search';
+export const SEARCH_SERVICE_NAME = 'SearchService';
