@@ -86,7 +86,7 @@ export class TableController implements OnModuleInit {
           schema: new Array<Schema>(3).fill(null).map((_, schemaIdx) => {
             return {
               name: `schema_${schemaIdx}_${faker.name.firstName()}`,
-              type: `type_${schemaIdx}_${faker.name.middleName()}`,
+              type: faker.helpers.arrayElement(['String', 'Int64', 'Int32']),
               descr: `descr_${schemaIdx}_${faker.lorem.paragraph()}`,
               isPartition: Math.random() > 0.5,
             };

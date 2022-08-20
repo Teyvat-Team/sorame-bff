@@ -46,13 +46,13 @@ export class SearchController implements OnModuleInit {
         resolve({
           cost: '1000',
           sql: 'select * from test',
-          table: new Array(100).fill(null).map((_, idx) => {
+          table: new Array(8).fill(null).map((_, idx) => {
             return {
               row: [
                 ...groupByList?.map?.((i) => {
                   return {
                     key: i,
-                    value: faker.random.numeric(4),
+                    value: faker.name.firstName(),
                   };
                 }),
                 ...selectList?.map((i) => {
