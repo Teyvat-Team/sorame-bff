@@ -31,35 +31,34 @@ export class DataSourceController implements OnModuleInit {
 
   @Get('list')
   async list(): Promise<Observable<ListResponse>> {
-    debugger;
-    // const [err, res] = await to(firstValueFrom(this.svc.list({})));
-    // if (err) {
-    // mock data, should delete it if interface is ready
-    return of(
-      new Promise((resolve) => {
-        resolve({
-          data: [
-            {
-              dataSourceName: 'Clickhouse',
-              dataSourceType: 'click_house',
-            },
-          ],
-          baseResp: {
-            code: 0,
-            message: 'success',
-          },
-        } as ListResponse);
-      }),
-    ) as any as Observable<ListResponse>;
+    const [err, res] = await to(firstValueFrom(this.svc.list({})));
+    if (err) {
+      // mock data, should delete it if interface is ready
+      // return of(
+      //   new Promise((resolve) => {
+      //     resolve({
+      //       data: [
+      //         {
+      //           dataSourceName: 'Clickhouse',
+      //           dataSourceType: 'click_house',
+      //         },
+      //       ],
+      //       baseResp: {
+      //         code: 0,
+      //         message: 'success',
+      //       },
+      //     } as ListResponse);
+      //   }),
+      // ) as any as Observable<ListResponse>;
 
-    // throw new HttpException(
-    //   {
-    //     status: HttpStatus.INTERNAL_SERVER_ERROR,
-    //     error: `Failed to connect to java clickhouse service. Error Message: ${err}`,
-    //   },
-    //   HttpStatus.INTERNAL_SERVER_ERROR,
-    // );
-    // }
-    // return of(res);
+      throw new HttpException(
+        {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          error: `Failed to connect to java clickhouse service. Error Message: ${err}`,
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+    return of(res);
   }
 }

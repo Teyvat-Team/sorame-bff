@@ -26,7 +26,7 @@ const protoPath =
         name: DATA_SOURCE_SERVICE_NAME,
         transport: Transport.GRPC,
         options: {
-          url: '123.11.3.202:50051',
+          url: '123.11.2.135:50051',
           package: DATASOURCE_PACKAGE_NAME,
           protoPath: resolve(__dirname, protoPath),
         },
