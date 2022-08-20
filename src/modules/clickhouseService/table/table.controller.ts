@@ -83,7 +83,7 @@ export class TableController implements OnModuleInit {
             code: 200,
             message: 'success',
           },
-          schema: new Array<Schema>(5).fill(null).map((_, schemaIdx) => {
+          schema: new Array<Schema>(3).fill(null).map((_, schemaIdx) => {
             return {
               name: `schema_${schemaIdx}_${faker.name.firstName()}`,
               type: `type_${schemaIdx}_${faker.name.middleName()}`,
@@ -140,8 +140,8 @@ export class TableController implements OnModuleInit {
           /** table id */
           tableId: faker.random.numeric(32),
           /** table schema */
-          schema: new Array(10).fill(null).map((_) => ({
-            name: faker.name.prefix(),
+          schema: new Array(3).fill(null).map((_) => ({
+            name: faker.name.jobTitle(),
             type: faker.helpers.arrayElement([
               'int',
               'string',
