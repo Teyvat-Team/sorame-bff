@@ -106,7 +106,7 @@ export interface FunctionList {
 
 export const TABLE_PACKAGE_NAME = 'table';
 
-export interface TableClient {
+export interface TableServiceClient {
   /** 数据源下的所有表 */
 
   list(request: TableRequest): Observable<TableResponse>;
@@ -120,7 +120,7 @@ export interface TableClient {
   info(request: DataTableInfoRequest): Observable<DataTableInfoResponse>;
 }
 
-export interface TableController {
+export interface TableServiceController {
   /** 数据源下的所有表 */
 
   list(
@@ -146,7 +146,7 @@ export interface TableController {
     | DataTableInfoResponse;
 }
 
-export function TableControllerMethods() {
+export function TableServiceControllerMethods() {
   return function (constructor: Function) {
     const grpcMethods: string[] = ['list', 'schema', 'info'];
     for (const method of grpcMethods) {
@@ -154,7 +154,7 @@ export function TableControllerMethods() {
         constructor.prototype,
         method,
       );
-      GrpcMethod('Table', method)(
+      GrpcMethod('TableService', method)(
         constructor.prototype[method],
         method,
         descriptor,
@@ -166,7 +166,7 @@ export function TableControllerMethods() {
         constructor.prototype,
         method,
       );
-      GrpcStreamMethod('Table', method)(
+      GrpcStreamMethod('TableService', method)(
         constructor.prototype[method],
         method,
         descriptor,
@@ -175,4 +175,4 @@ export function TableControllerMethods() {
   };
 }
 
-export const TABLE_SERVICE_NAME = 'Table';
+export const TABLE_SERVICE_NAME = 'TableService';

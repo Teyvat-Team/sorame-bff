@@ -1,11 +1,9 @@
 import {
   CreateDatasetRequest,
   CreateDatasetResponse,
-  DataSetClient,
-  DataSetList,
   DataSetListRequest,
   DataSetListResponse,
-  DataSetListResponseData,
+  DataSetServiceClient,
 } from './dataset.pb';
 import {
   Controller,
@@ -18,7 +16,6 @@ import {
   Post,
   Body,
   Delete,
-  Param,
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { firstValueFrom, Observable, of } from 'rxjs';
@@ -31,13 +28,15 @@ import { getTime } from 'date-fns';
 
 @Controller(`${baseurl}/dataset`)
 export class DataSetController implements OnModuleInit {
-  private svc: DataSetClient;
+  private svc: DataSetServiceClient;
 
   @Inject(DATA_SET_SERVICE_NAME)
   private readonly client: ClientGrpc;
 
   public onModuleInit(): void {
-    this.svc = this.client.getService<DataSetClient>(DATA_SET_SERVICE_NAME);
+    this.svc = this.client.getService<DataSetServiceClient>(
+      DATA_SET_SERVICE_NAME,
+    );
   }
 
   @Get('list')
@@ -45,6 +44,7 @@ export class DataSetController implements OnModuleInit {
     @Query() query: DataSetListRequest,
   ): Promise<Observable<DataSetListResponse>> {
     const [err, res] = await to(firstValueFrom(this.svc.list(query)));
+
     if (err) {
       // mock data, should delete it if interface is ready
       // const mockData: DataSetListResponse = {
@@ -147,23 +147,23 @@ export class DataSetController implements OnModuleInit {
   async delete(
     @Query() params: CreateDatasetRequest,
   ): Promise<Observable<CreateDatasetResponse>> {
-    // const [err, res] = await to(firstValueFrom(this.svc.create(params)));
-    // if (err) {
-    // mock data, should delete it if interface is ready
-    return of(
-      new Promise((resolve) => {
-        resolve({} as CreateDatasetResponse);
-      }),
-    ) as any as Observable<CreateDatasetResponse>;
+    const [err, res] = await to(firstValueFrom(this.svc.create(params)));
+    if (err) {
+      // mock data, should delete it if interface is ready
+      // return of(
+      //   new Promise((resolve) => {
+      //     resolve({} as CreateDatasetResponse);
+      //   }),
+      // ) as any as Observable<CreateDatasetResponse>;
 
-    // throw new HttpException(
-    //   {
-    //     status: HttpStatus.INTERNAL_SERVER_ERROR,
-    //     error: `Failed to connect to java clickhouse service. Error Message: ${err}`,
-    //   },
-    //   HttpStatus.INTERNAL_SERVER_ERROR,
-    // );
-    // }
-    // return of(res);
+      throw new HttpException(
+        {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          error: `Failed to connect to java clickhouse service. Error Message: ${err}`,
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+    return of(res);
   }
 }

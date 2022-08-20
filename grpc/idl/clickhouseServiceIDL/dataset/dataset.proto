@@ -1,132 +1,130 @@
 syntax = "proto3";
 
-package dataset;
-
 import "base.proto";
 
-service DataSet {
-  // 数据集列表
-  rpc List(DataSetListRequest) returns (DataSetListResponse) {}
-  // 创建数据集
-  rpc Create(CreateDatasetRequest) returns (CreateDatasetResponse) {}
-  // 删除数据集
-  rpc Delete(DeleteDatasetRequest) returns (DeleteDatasetResponse) {}
+package dataset;
+
+
+service DataSetService {
+    rpc List (DataSetListRequest) returns (DataSetListResponse) {}
+    // 创建数据集
+    rpc Create (CreateDatasetRequest) returns (CreateDatasetResponse) {}
+    // 删除数据集
+    rpc Delete (DeleteDatasetRequest) returns (DeleteDatasetResponse) {}
 }
 
-/** 数据集列表 *****************************************/
-
 enum OrderBy {
-  createTime = 0;
+    createTime = 0;
 }
 
 enum Order {
-  asc = 0;
-  desc = 1;
+    asc = 0;
+    desc = 1;
 }
 
 message DataSetListRequest {
-  string createUser = 1;
-  /*
-   * @default = createTime
-   */
-  optional OrderBy orderBy = 2;
-  /*
-   * @default = desc
-   */
-  optional Order order= 3;
-  /**
-   * when page and pageSize are not set, it will return all data sets
-   */
-  optional int32 page = 4;
-  optional int32 pageSize = 5;
-  /** filter for serarching dataset name */
-  optional string keyword = 6;
+    string createUser = 1;
+    /*
+     * @default = createTime
+     */
+    OrderBy orderBy = 2;
+    /*
+     * @default = desc
+     */
+    Order order = 3;
+    /**
+     * when page and pageSize are not set, it will return all data sets
+     */
+    int32 page = 4;
+    int32 pageSize = 5;
+    /** filter for serarching dataset name */
+    string keyword = 6;
 }
 
 message DataSetListResponse {
-  // 所有数据集
-  repeated DataSetListResponseData data = 1;
-  base.BaseResp baseResp = 255;
+    // 所有数据集
+    repeated DataSetListResponseData data = 1;
+    base.BaseResp baseResp = 255;
 }
 
 // 单个数据集
 message DataSetListResponseData {
-  // 一个数据集下的所有的表，数组长度为表的个数
-  repeated DataSetList dataSetList = 1;
-  // 数据集总数
-  int64 totalCount = 2;
+    // 一个数据集下的所有的表，数组长度为表的个数
+    repeated DataSetList dataSetList = 1;
+    // 数据集总数
+    int64 totalCount = 2;
 }
 
 // 数据集下的单张表
 message DataSetList {
-  // 1-6 是数据集的字段，而不是表的字段
-  /** dataset createTime, timestamp in ms*/
-  string createTime = 1;
-  /** dataset name*/
-  string name = 2;
-  /** dataset description*/
-  string descr = 3;
-  /** dataset source type*/
-  string dataSourceType = 4;
-  /** dataset id 数据集id */
-  string id = 5;
-  /** dataset createUser*/
-  string createUser = 6;
-  // 7-9 是表的字段
-  /** database name from where the table created*/
-  string dbName = 7;
-  /** table name*/
-  string tableName = 8;
-   /** table id*/
-  string tableId = 9;
-  /** table schema*/
-  repeated Schema schema = 10;
+    // 1-6 是数据集的字段，而不是表的字段
+    /** dataset createTime, timestamp in ms*/
+    string createTime = 1;
+    /** dataset name*/
+    string name = 2;
+    /** dataset description*/
+    string descr = 3;
+    /** dataset source type*/
+    string dataSourceType = 4;
+    /** dataset id 数据集id */
+    string id = 5;
+    /** dataset createUser*/
+    string createUser = 6;
+    // 7-9 是表的字段
+    /** database name from where the table created*/
+    string dbName = 7;
+    /** table name*/
+    string tableName = 8;
+    /** table id*/
+    string tableId = 9;
+    /** table schema*/
+    repeated Schema schema = 10;
 }
 
 message Schema {
-  string name = 1;
-  string type = 2;
-  string descr = 3;
-  bool isPartition = 4;
+    string name = 1;
+    string type = 2;
+    string descr = 3;
+    bool isPartition = 4;
 }
 
 /** 创建数据集 *****************************************/
 
 message CreateDatasetRequest {
-  repeated CreateTableList  createTableList = 1;
+    repeated CreateTableList createTableList = 1;
 }
 
 message CreateTableList {
-  string name = 1; // 数据集名称
-  string descr = 2; //数据集描述
-  string dataSourceName = 3; //数据源名称
-  string dbName = 4; // 数据库名称
-  string tableId = 5; //表 id
-  string createUser = 7; // 创建用户
-  Attr attr = 6; // 维度和指标
+    string name = 1; // 数据集名称
+    string descr = 2; //数据集描述
+    string dataSourceName = 3; //数据源名称
+    string dbName = 4; // 数据库名称
+    string tableId = 5; //表 id
+    string createUser = 7; // 创建用户
+    Attr attr = 6; // 维度和指标
 }
 
 message Attr {
-  repeated string dimension = 1;
-  repeated string matrix = 2;
+    repeated string dimension = 1;
+    repeated string matrix = 2;
 }
 
 message CreateDatasetResponse {
-  Data data = 1;
-  base.BaseResp baseResp = 255;
+    Data data = 1;
+    base.BaseResp baseResp = 255;
 }
 
 message Data {
-  string dataSetId = 1;
+    string dataSetId = 1;
 }
 
 /** 删除数据集 *****************************************/
 
 message DeleteDatasetRequest {
-  string id = 1; // 数据集id
+    string id = 1; // 数据集id
 }
 
 message DeleteDatasetResponse {
-  bool data = 1;
-  base.BaseResp baseResp = 255;
+    bool data = 1;
+    base.BaseResp baseResp = 255;
 }

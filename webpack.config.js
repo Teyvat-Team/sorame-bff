@@ -3,7 +3,7 @@ const { RunScriptWebpackPlugin } = require('run-script-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require('path');
 
-console.log('%c usingWebpack >>>', 'background: yellow; color: blue');
+console.log('%c usingWebpack >>>');
 
 module.exports = function (options, webpack) {
   return {

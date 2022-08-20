@@ -19,14 +19,14 @@ export enum Order {
 export interface DataSetListRequest {
   createUser: string;
   /** @default = createTime */
-  orderBy?: OrderBy | undefined;
+  orderBy: OrderBy;
   /** @default = desc */
-  order?: Order | undefined;
+  order: Order;
   /** when page and pageSize are not set, it will return all data sets */
-  page?: number | undefined;
-  pageSize?: number | undefined;
+  page: number;
+  pageSize: number;
   /** filter for serarching dataset name */
-  keyword?: string | undefined;
+  keyword: string;
 }
 
 export interface DataSetListResponse {
@@ -121,9 +121,7 @@ export interface DeleteDatasetResponse {
 
 export const DATASET_PACKAGE_NAME = 'dataset';
 
-export interface DataSetClient {
-  /** 数据集列表 */
-
+export interface DataSetServiceClient {
   list(request: DataSetListRequest): Observable<DataSetListResponse>;
 
   /** 创建数据集 */
@@ -135,9 +133,7 @@ export interface DataSetClient {
   delete(request: DeleteDatasetRequest): Observable<DeleteDatasetResponse>;
 }
 
-export interface DataSetController {
-  /** 数据集列表 */
-
+export interface DataSetServiceController {
   list(
     request: DataSetListRequest,
   ):
@@ -164,7 +160,7 @@ export interface DataSetController {
     | DeleteDatasetResponse;
 }
 
-export function DataSetControllerMethods() {
+export function DataSetServiceControllerMethods() {
   return function (constructor: Function) {
     const grpcMethods: string[] = ['list', 'create', 'delete'];
     for (const method of grpcMethods) {
@@ -172,7 +168,7 @@ export function DataSetControllerMethods() {
         constructor.prototype,
         method,
       );
-      GrpcMethod('DataSet', method)(
+      GrpcMethod('DataSetService', method)(
         constructor.prototype[method],
         method,
         descriptor,
@@ -184,7 +180,7 @@ export function DataSetControllerMethods() {
         constructor.prototype,
         method,
       );
-      GrpcStreamMethod('DataSet', method)(
+      GrpcStreamMethod('DataSetService', method)(
         constructor.prototype[method],
         method,
         descriptor,
@@ -193,4 +189,4 @@ export function DataSetControllerMethods() {
   };
 }
 
-export const DATA_SET_SERVICE_NAME = 'DataSet';
+export const DATA_SET_SERVICE_NAME = 'DataSetService';

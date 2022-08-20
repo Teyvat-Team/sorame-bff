@@ -1,5 +1,4 @@
 import {
-  TableClient,
   TableList,
   TableResponse,
   TABLE_SERVICE_NAME,
@@ -10,6 +9,7 @@ import {
   Schema,
   DataTableInfoRequest,
   DataTableInfoResponse,
+  TableServiceClient,
 } from './table.pb';
 import {
   Controller,
@@ -30,13 +30,13 @@ import { getTime } from 'date-fns';
 
 @Controller(`${baseurl}/table`)
 export class TableController implements OnModuleInit {
-  private svc: TableClient;
+  private svc: TableServiceClient;
 
   @Inject(TABLE_SERVICE_NAME)
   private readonly client: ClientGrpc;
 
   public onModuleInit(): void {
-    this.svc = this.client.getService<TableClient>(TABLE_SERVICE_NAME);
+    this.svc = this.client.getService<TableServiceClient>(TABLE_SERVICE_NAME);
   }
 
   @Get('list')
@@ -219,6 +219,52 @@ export class TableController implements OnModuleInit {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
-    return of(res);
+
+    const resWithFunctionList: DataTableInfoResponse = {
+      ...res,
+      functionList: [
+        {
+          name: '求和',
+          value: 'sum',
+        },
+        {
+          name: '计数',
+          value: 'count',
+        },
+        {
+          name: '去重计数',
+          value: 'uniqExact',
+        },
+        {
+          name: '平均',
+          value: 'avg',
+        },
+        {
+          name: '最大值',
+          value: 'max',
+        },
+        {
+          name: '最小值',
+          value: 'min',
+        },
+        {
+          name: '方差',
+          value: 'varPop',
+        },
+        {
+          name: '标准差',
+          value: 'stddevPop',
+        },
+        {
+          name: '分位数',
+          value: 'quantile',
+        },
+        {
+          name: 'topK',
+          value: 'topK',
+        },
+      ],
+    };
+    return of(resWithFunctionList);
   }
 }
