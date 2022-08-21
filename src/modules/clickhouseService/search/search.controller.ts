@@ -41,11 +41,13 @@ export class SearchController implements OnModuleInit {
     if (err) {
       // mock data, should delete it if interface is ready
       // return of(
+      // const { groupByList, selectList, offset, limit } = params;
+      // return of(
       //   new Promise((resolve) => {
       //     resolve({
       //       cost: '1000',
       //       sql: 'select * from test',
-      //       table: new Array(8).fill(null).map((_, idx) => {
+      //       table: new Array(limit).fill(null).map((_, idx) => {
       //         return {
       //           row: [
       //             ...groupByList?.map?.((i) => {
@@ -56,13 +58,16 @@ export class SearchController implements OnModuleInit {
       //             }),
       //             ...selectList?.map((i) => {
       //               return {
-      //                 key: i.field,
+      //                 key: `${i.function}(${i.field})`,
       //                 value: faker.random.numeric(5),
       //               };
       //             }),
       //           ],
       //         };
       //       }),
+      //       offset: offset,
+      //       limit: limit,
+      //       total: 9980,
       //       baseResp: {
       //         code: 200,
       //         message: 'success',
@@ -74,7 +79,7 @@ export class SearchController implements OnModuleInit {
       throw new HttpException(
         {
           status: HttpStatus.INTERNAL_SERVER_ERROR,
-          error: `Failed to connect to java clickhouse service. Error Message: ${err}`,
+          error: `Java service error. Error Message: ${err}`,
         },
         HttpStatus.INTERNAL_SERVER_ERROR,
       );

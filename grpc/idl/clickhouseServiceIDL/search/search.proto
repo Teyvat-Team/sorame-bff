@@ -11,19 +11,24 @@ service SearchService {
 
 
 message SearchInterfaceRequest {
-    string datasetId = 1;
-    string tableId = 2;
-    bool cache = 3;
-    repeated SelectList selectList = 4;
-    string whereCause = 5;
-    repeated string groupByList = 6;
-    repeated Sort sort = 7;
+  string datasetId = 1;
+  string tableId = 2;
+  bool cache = 3;
+  repeated SelectList selectList = 4;
+  string whereCause = 5;
+  repeated string groupByList = 6;
+  repeated Sort sort = 7;
+  int32 offset = 8;
+  int32 limit = 9;
 }
 
 message SearchInterfaceResponse {
   string cost = 1;
   string sql = 2;
   repeated Rows table = 3;
+  int32 offset = 4; // 从 0 开始的偏置值
+  int32 limit = 5;
+  int32 total = 6;
   base.BaseResp baseResp = 255;
 }
 

@@ -69,7 +69,7 @@ export class TableController implements OnModuleInit {
       throw new HttpException(
         {
           status: HttpStatus.INTERNAL_SERVER_ERROR,
-          error: `Failed to connect to java clickhouse service. Error Message: ${err}`,
+          error: `Java service error. Error Message: ${err}`,
         },
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
@@ -106,7 +106,7 @@ export class TableController implements OnModuleInit {
       throw new HttpException(
         {
           status: HttpStatus.INTERNAL_SERVER_ERROR,
-          error: `Failed to connect to java clickhouse service. Error Message: ${err}`,
+          error: `Java service error. Error Message: ${err}`,
         },
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
@@ -128,84 +128,96 @@ export class TableController implements OnModuleInit {
       //         code: 200,
       //         message: 'success',
       //       },
-      //       /** dataset createTime, timestamp in ms */
-      //       createTime: Math.floor(getTime(faker.date.past()) / 1000).toString(),
-      //       /** dataset name */
-      //       name: faker.name.firstName() + ' 数据集',
-      //       /** dataset description */
-      //       descr: faker.lorem.sentence(),
-      //       /** dataset source type */
-      //       dataSourceType: faker.helpers.arrayElement(['click_house']),
-      //       /** dataset id 数据集id */
-      //       id: faker.random.numeric(42),
-      //       /** dataset createUser */
-      //       createUser: faker.name.lastName(),
-      //       /** database name from where the table created */
-      //       dbName: faker.name.jobArea(),
-      //       /** table name */
-      //       tableName: faker.name.middleName() + ' 表',
-      //       /** table id */
-      //       tableId: faker.random.numeric(32),
-      //       /** table schema */
-      //       schema: new Array(3).fill(null).map((_) => ({
-      //         name: faker.name.jobTitle(),
-      //         type: faker.helpers.arrayElement([
-      //           'int',
-      //           'string',
-      //           'float',
-      //           'bool',
-      //           'date',
-      //         ]),
-      //         descr: faker.lorem.paragraph(),
-      //         isPartition: Math.random() > 0.5,
-      //       })),
-      //       dimensionList: new Array<string>(20)
-      //         .fill(null)
-      //         .map((_, dimensionIdx) => {
-      //           return {
-      //             name: `dimension_${dimensionIdx}_${faker.name.firstName()}`,
-      //             type: `dimension_type_${dimensionIdx}_${faker.name.middleName()}`,
-      //             descr: `dimension_descr_${dimensionIdx}_${faker.lorem.paragraph()}`,
-      //             isPartition: Math.random() > 0.5,
-      //           };
-      //         }),
-      //       metricList: new Array<string>(20).fill(null).map((_, metricIdx) => {
-      //         return {
-      //           name: `metric_${metricIdx}_${faker.name.firstName()}`,
-      //           type: `metric_type_${metricIdx}_${faker.name.middleName()}`,
-      //           descr: `metric_descr_${metricIdx}_${faker.lorem.paragraph()}`,
-      //           isPartition: Math.random() > 0.5,
-      //         };
-      //       }),
-      //       functionList: [
-      //         {
-      //           name: '求和',
-      //           value: 'sum',
-      //         },
-      //         {
-      //           name: '平均值',
-      //           value: 'avg',
-      //         },
-      //         {
-      //           name: '最大值',
-      //           value: 'max',
-      //         },
-      //         {
-      //           name: '最小值',
-      //           value: 'min',
-      //         },
-      //         {
-      //           name: '计数',
-      //           value: 'count',
-      //         },
-      //         {
-      //           name: 'topK',
-      //           value: 'topK',
-      //         },
-      //         {
-      //           name: '分位数',
-      //           value: 'quantile',
-      //         },
+      // /** dataset createTime, timestamp in ms */
+      // createTime: Math.floor(getTime(faker.date.past()) / 1000).toString(),
+      // /** dataset name */
+      // name: faker.name.firstName() + ' 数据集',
+      // /** dataset description */
+      // descr: faker.lorem.sentence(),
+      // /** dataset source type */
+      // dataSourceType: faker.helpers.arrayElement(['click_house']),
+      // /** dataset id 数据集id */
+      // id: faker.random.numeric(42),
+      // /** dataset createUser */
+      // createUser: faker.name.lastName(),
+      // /** database name from where the table created */
+      // dbName: faker.name.jobArea(),
+      // /** table name */
+      // tableName: faker.name.middleName() + ' 表',
+      // /** table id */
+      // tableId: faker.random.numeric(32),
+      // /** table schema */
+      // schema: new Array(3).fill(null).map((_) => ({
+      //   name: faker.name.jobTitle(),
+      //   type: faker.helpers.arrayElement([
+      //     'int',
+      //     'string',
+      //     'float',
+      //     'bool',
+      //     'date',
+      //   ]),
+      //   descr: faker.lorem.paragraph(),
+      //   isPartition: Math.random() > 0.5,
+      // })),
+      // dimensionList: new Array<string>(20)
+      //   .fill(null)
+      //   .map((_, dimensionIdx) => {
+      //     return {
+      //       name: `dimension_${dimensionIdx}_${faker.name.firstName()}`,
+      //       type: `dimension_type_${dimensionIdx}_${faker.name.middleName()}`,
+      //       descr: `dimension_descr_${dimensionIdx}_${faker.lorem.paragraph()}`,
+      //       isPartition: Math.random() > 0.5,
+      //     };
+      //   }),
+      // metricList: new Array<string>(20).fill(null).map((_, metricIdx) => {
+      //   return {
+      //     name: `metric_${metricIdx}_${faker.name.firstName()}`,
+      //     type: `metric_type_${metricIdx}_${faker.name.middleName()}`,
+      //     descr: `metric_descr_${metricIdx}_${faker.lorem.paragraph()}`,
+      //     isPartition: Math.random() > 0.5,
+      //   };
+      // }),
+      // functionList: [
+      //   {
+      //     name: '求和',
+      //     value: 'sum',
+      //   },
+      //   {
+      //     name: '计数',
+      //     value: 'count',
+      //   },
+      //   {
+      //     name: '去重计数',
+      //     value: 'uniqExact',
+      //   },
+      //   {
+      //     name: '平均',
+      //     value: 'avg',
+      //   },
+      //   {
+      //     name: '最大值',
+      //     value: 'max',
+      //   },
+      //   {
+      //     name: '最小值',
+      //     value: 'min',
+      //   },
+      //   {
+      //     name: '方差',
+      //     value: 'varPop',
+      //   },
+      //   {
+      //     name: '标准差',
+      //     value: 'stddevPop',
+      //   },
+      //   {
+      //     name: '分位数',
+      //     value: 'quantile',
+      //   },
+      //   {
+      //     name: 'topK',
+      //     value: 'topK',
+      //   },
       //       ],
       //     } as DataTableInfoResponse);
       //   }),
@@ -214,7 +226,7 @@ export class TableController implements OnModuleInit {
       throw new HttpException(
         {
           status: HttpStatus.INTERNAL_SERVER_ERROR,
-          error: `Failed to connect to java clickhouse service. Error Message: ${err}`,
+          error: `Java service error. Error Message: ${err}`,
         },
         HttpStatus.INTERNAL_SERVER_ERROR,
       );

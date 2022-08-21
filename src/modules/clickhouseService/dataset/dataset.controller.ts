@@ -94,6 +94,7 @@ export class DataSetController implements OnModuleInit {
       //       };
       //     }),
       //   })),
+      //   // data: [],
       // };
 
       // return of(
@@ -137,7 +138,7 @@ export class DataSetController implements OnModuleInit {
       throw new HttpException(
         {
           status: HttpStatus.INTERNAL_SERVER_ERROR,
-          error: `Failed to connect to java clickhouse service. Error Message: ${err}`,
+          error: `Java service error. Error Message: ${err}`,
         },
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
@@ -161,7 +162,7 @@ export class DataSetController implements OnModuleInit {
       throw new HttpException(
         {
           status: HttpStatus.INTERNAL_SERVER_ERROR,
-          error: `Failed to connect to java clickhouse service. Error Message: ${err}`,
+          error: `Java service error. Error Message: ${err}`,
         },
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
