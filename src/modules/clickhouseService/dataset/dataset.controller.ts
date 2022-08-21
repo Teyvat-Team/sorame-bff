@@ -4,6 +4,8 @@ import {
   DataSetListRequest,
   DataSetListResponse,
   DataSetServiceClient,
+  DeleteDatasetRequest,
+  DeleteDatasetResponse,
 } from './dataset.pb';
 import {
   Controller,
@@ -145,9 +147,9 @@ export class DataSetController implements OnModuleInit {
 
   @Delete('delete')
   async delete(
-    @Query() params: CreateDatasetRequest,
-  ): Promise<Observable<CreateDatasetResponse>> {
-    const [err, res] = await to(firstValueFrom(this.svc.create(params)));
+    @Query() params: DeleteDatasetRequest,
+  ): Promise<Observable<DeleteDatasetResponse>> {
+    const [err, res] = await to(firstValueFrom(this.svc.delete(params)));
     if (err) {
       // mock data, should delete it if interface is ready
       // return of(
