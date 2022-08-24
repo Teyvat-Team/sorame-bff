@@ -23,7 +23,7 @@ const protoPath =
         name: TABLE_SERVICE_NAME,
         transport: Transport.GRPC,
         options: {
-          url: '123.11.2.135:50051',
+          url: 'bravoboom.tpddns.cn:50051',
           package: TABLE_PACKAGE_NAME,
           protoPath: resolve(__dirname, protoPath),
         },
